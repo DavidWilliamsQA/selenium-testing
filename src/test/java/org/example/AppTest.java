@@ -42,6 +42,36 @@ public class AppTest
         assertTrue(imagesLink.isDisplayed());
     }
 
+    @Test
+    public void task() throws InterruptedException{
+        driver.manage().window().maximize();;
+        sleep(1000);
+        driver.get("http://thedemosite.co.uk/login.php");
+        WebElement addUser = driver.findElement(By.partialLinkText("Add a User"));
+        addUser.click();
+        sleep(1000);
+        WebElement usernameAddUser = driver.findElement(By.name("username"));
+        usernameAddUser.sendKeys("user");
+        WebElement passwordAddUser = driver.findElement(By.name("password"));
+        passwordAddUser.sendKeys("root");
+        WebElement submitButton = driver.findElement(By.name("FormsButton2"));
+        submitButton.click();
+        sleep(1000);
+
+        WebElement login = driver.findElement(By.partialLinkText("Login"));
+        login.click();
+        sleep(1000);
+        WebElement usernameLogin = driver.findElement(By.name("username"));
+        usernameLogin.sendKeys("user");
+        WebElement passwordLogin = driver.findElement(By.name("password"));
+        passwordLogin.sendKeys("root");
+        WebElement submitLogin = driver.findElement(By.name("FormsButton2"));
+        submitLogin.click();
+        sleep(1000);
+        WebElement successfulLogin = driver.findElement(By.cssSelector("body > table > tbody > tr > td.auto-style1 > big > blockquote > blockquote > font > center > b"));
+        assertTrue(successfulLogin.isDisplayed());
+    }
+
     @After
     public void tearDown(){
         driver.close();
