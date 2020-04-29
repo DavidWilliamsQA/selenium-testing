@@ -7,10 +7,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import javax.swing.*;
 
@@ -24,7 +27,6 @@ public class AppTest {
     @Before
     public void setUp() {
         driver = new ChromeDriver();
-
     }
 
     @Test
@@ -110,6 +112,66 @@ public class AppTest {
                 .moveByOffset(80,0)
                 .moveByOffset(0,100).release().perform();
         sleep(10000);
+    }
+
+    @Test
+    public void shoppingSite() throws InterruptedException{
+        driver.manage().window().maximize();
+        sleep(1000);
+
+        driver.get("http://automationpractice.com/index.php");
+        Actions action = new Actions(driver);
+
+        WebElement dress = driver.findElement(By.partialLinkText("DRESSES"));
+        dress.click();
+
+        sleep(1000);
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scrollBy(0,500)");
+
+        WebElement dressCasual = driver.findElement(By.partialLinkText("Printed Dress"));
+        dressCasual.click();
+
+        WebElement submit = driver.findElement(By.name("Submit"));
+        submit.click();
+
+        WebElement toCheckout = (new WebDriverWait(driver, 5))
+                .until(ExpectedConditions.presenceOfElementLocated(By.partialLinkText("Proceed to checkout")));
+        toCheckout.click();
+
+        WebElement proceedTo = driver.findElement(By.partialLinkText("Proceed to checkout"));
+        proceedTo.click();
+
+        WebElement emailInput = driver.findElement(By.name("email_create"));
+        int rand = (int)(Math.random() * 10);
+        emailInput.sendKeys("yoursin" + rand + "@test.com");
+
+        WebElement createAccount = driver.findElement(By.id("SubmitCreate"));
+        createAccount.click();
+
+        sleep(10000);
+
+        WebElement genderMale = driver.findElement(By.id("id_gender1"));
+        genderMale.click();
+
+        WebElement firstName = driver.findElement(By.id("customer_firstname"));
+        firstName.sendKeys("Crone");
+
+        WebElement lastName = driver.findElement(By.id("customer_lastname"));
+        lastName.sendKeys("Yert");
+
+        WebElement password = driver.findElement(By.id("passwd"));
+        password.sendKeys("tryeuueiie");
+
+
+//        WebElement createAccount = (new WebDriverWait(driver, 5))
+//                .until(ExpectedConditions.presenceOfElementLocated(By.id("SubmitCreate")));
+//        createAccount.click();
+
+
+
+        sleep(10000);
+
     }
 
     @After
